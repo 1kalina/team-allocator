@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Randomizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Team Allocator</h1>
+        <p>Enter the number of people and the number of groups to generate random groups.</p>
+
+        <div class="input-group">
+            <label for="members">Number of People:</label>
+            <input type="number" id="members" min="1" placeholder="e.g., 10">
+        </div>
+        <div class="input-group">
+            <label for="groups">Number of Groups:</label>
+            <input type="number" id="groups" min="1" placeholder="e.g., 3">
+        </div>
+        <button id="generate">Generate Groups</button>
+
+        <div id="output" class="output"></div>
+        
+        <div class="github-link">
+            <p>Check the project on GitHub: 
+                <a href="https://github.com/1kalina/team-allocator" target="_blank">https://github.com/1kalina/team-allocator</a>
+            </p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
