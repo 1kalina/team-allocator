@@ -1,47 +1,60 @@
 import random
+from typing import List
 
-# Greeting
-print("Hi, Good to see you again!")
-print("Follow me on GitHub https://github.com/1kalina\n")
+def display_greeting():
+    """Display welcome message and GitHub link"""
+    print("Good to see you again!")
+    print("Follow me on GitHub https://github.com/1kalina\n")
 
-# Input prompts
-try:
-    members = int(input("How many people are you? "))
-    groups = int(input("How many groups do you want to make? "))
+def get_valid_input(prompt: str) -> int:
+    """Get and validate user input as positive integer"""
+    while True:
+        try:
+            value = int(input(prompt))
+            if value <= 0:
+                print("Please enter a positive integer.")
+                continue
+            return value
+        except ValueError:
+            print("Please enter a valid integer.")
 
-    if groups <= 0 or members < groups:
-        print("Invalid input: groups must be positive and less than or equal to members.")
-    else:
-        memb_per_group = members // groups
-        remainder = members % groups
+def validate_group_size(members: int, groups: int) -> bool:
+    """Validate that group count is reasonable"""
+    if groups > members:
+        print(f"Cannot create {groups} groups from {members} members.")
+        return False
+    return True
 
+def generate_member_list(member_count: int) -> List[int]:
+    """Generate a shuffled list of member identifiers"""
+    members = list(range(1, member_count + 1))
+    random.shuffle(members)
+    return members
 
-        def randomizer(members, groups, memb_per_group, remainder):
-            booked = []
-            for i in range(1, groups + 1):
-                group = []
-                for _ in range(memb_per_group):
-                    while True:
-                        member = random.randint(1, members)
-                        if member not in booked:
-                            booked.append(member)
-                            group.append(member)
-                            break
-                # Distribute remaining members among groups
-                if remainder > 0:
-                    while True:
-                        member = random.randint(1, members)
-                        if member not in booked:
-                            booked.append(member)
-                            group.append(member)
-                            remainder -= 1
-                            break
+def distribute_members(members: List[int], group_count: int) -> List[List[int]]:
+    """Distribute members into groups as evenly as possible"""
+    groups = [[] for _ in range(group_count)]
+    for i, member in enumerate(members):
+        groups[i % group_count].append(member)
+    return groups
 
-                print(f"Group {i} includes members with numbers: {sorted(group)}")
+def display_groups(groups: List[List[int]]):
+    """Display the formed groups"""
+    for i, group in enumerate(groups, start=1):
+        print(f"Group {i} includes members with numbers: {sorted(group)}")
 
+def main():
+    display_greeting()
 
-        randomizer(members, groups, memb_per_group, remainder)
+    members = get_valid_input("How many people are you? ")
+    groups = get_valid_input("How many groups do you want to make? ")
 
-except ValueError:
-    print("Please enter valid integers for members and groups.")
+    if not validate_group_size(members, groups):
+        return
 
+    member_list = generate_member_list(members)
+    grouped_members = distribute_members(member_list, groups)
+    display_groups(grouped_members)
+
+if __name__ == "__main__":
+    main()
